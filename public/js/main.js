@@ -16,32 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedSeat = null;
     let selectedScreen = null;
 
-    // Initialize the database for the user
-    async function initializeDatabase() {
-        try {
-            const response = await fetch('/api/init-db-endpoint');
-            const data = await response.json();
-            console.log(data.message);
-        } catch (error) {
-            console.error('Error initializing database:', error);
-        }
-    }
-
-    // Clean up the database for the user
-    async function cleanupDatabase() {
-        try {
-            const response = await fetch('/api/cleanup-db-endpoint');
-            const data = await response.json();
-            console.log(data.message);
-        } catch (error) {
-            console.error('Error cleaning up database:', error);
-        }
-    }
-
-    // Initialize and clean up the database on page load
-    initializeDatabase();
-    cleanupDatabase();
-
     fetch('/api/theaters')
         .then(response => response.json())
         .then(theaters => {
@@ -82,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         seatsContainer.innerHTML = '';
         selectedScreen = null;
         selectedSeat = null;
-
+        
         if (theaterId) {
             fetch(`/api/theaters/${theaterId}/screens`)
                 .then(response => response.json())
@@ -110,10 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
             type: e.target.selectedOptions[0].dataset.type,
             price: parseFloat(e.target.selectedOptions[0].dataset.price)
         } : null;
-
+        
         seatsContainer.innerHTML = '';
         selectedSeat = null;
-
+        
         if (screenId) {
             fetch(`/api/screens/${screenId}/seats`)
                 .then(response => response.json())
@@ -123,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         div.className = `seat ${seat.is_booked ? 'booked' : ''}`;
                         div.textContent = seat.seat_number;
                         div.dataset.id = seat.id;
-
+                        
                         div.addEventListener('click', () => {
                             document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
                             div.classList.add('selected');
                             selectedSeat = seat;
                         });
-
+                        
                         seatsContainer.appendChild(div);
                     });
                 })
@@ -137,87 +111,87 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error loading seats:', error);
                     alert('Failed to load seats. Please try again.');
                 });
-        }
-    });
-
-    bookButton.addEventListener('click', () => {
-        console.log('Starting booking process...');
-
-        if (!selectedScreen || !selectedSeat || !customerName.value.trim()) {
-            alert('Please select a screen, seat, and enter your name');
-            return;
-        }
-
-        const foodOrders = Array.from(foodContainer.querySelectorAll('input'))
-            .map(input => ({
-                foodItemId: parseInt(input.dataset.id),
-                quantity: parseInt(input.value),
-                price: parseFloat(input.dataset.price)
-            }))
-            .filter(order => order.quantity > 0);
-
-        fetch('/api/bookings', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                screenId: selectedScreen.id,
-                seatId: selectedSeat.id,
-                customerName: customerName.value.trim(),
-                foodOrders,
-                screenType: selectedScreen.type
-            })
-        })
-        .then(response => response.json())
-        .then(booking => {
-            if (booking.success) {
-                let summaryHTML = '';
-
-                if (booking.isWaitingList) {
-                    summaryHTML = `
-                        <p><strong>Booking Status:</strong> Waiting List</p>
-                        <p><strong>Waiting List Position:</strong> ${booking.waitingListPosition}</p>
-                        <p><strong>Customer Name:</strong> ${customerName.value}</p>
-                        <p><strong>Screen Type:</strong> ${selectedScreen.type}</p>
-                        <p class="note">You will be automatically upgraded to a confirmed booking when a seat becomes available.</p>
-                    `;
-                } else {
-                    let foodDiscount = selectedScreen.type === 'Gold' ? 0.10 :
-                                       selectedScreen.type === 'Max' ? 0.05 : 0;
-
-                    let foodTotal = foodOrders.reduce((total, order) =>
-                        total + (order.price * order.quantity * (1 - foodDiscount)), 0);
-                    summaryHTML = `
-                        <p><strong>Booking Status:</strong> Confirmed</p>
-                        <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
-                        <p><strong>Customer Name:</strong> ${customerName.value}</p>
-                        <p><strong>Screen Type:</strong> ${selectedScreen.type}</p>
-                        <p><strong>Ticket Price:</strong> Rs. ${selectedScreen.price}</p>
-                        <p><strong>Food & Beverages:</strong> Rs. ${foodTotal.toFixed(2)}</p>
-                        <p><strong>Total Amount:</strong> Rs. ${booking.totalAmount.toFixed(2)}</p>
-                    `;
-                }
-
-                summaryContent.innerHTML = summaryHTML;
-                bookingSummary.style.display = 'block';
-                theaterSelect.value = '';
-                screenSelect.value = '';
-                screenSelect.disabled = true;
-                seatsContainer.innerHTML = '';
-                customerName.value = '';
-                foodContainer.querySelectorAll('input').forEach(input => input.value = 0);
-                selectedSeat = null;
-                selectedScreen = null;
-            } else {
-                alert('Booking failed. Please try again.');
             }
-        })
-        .catch(error => {
-            console.error('Booking error:', error);
-            alert('Booking failed. Please try again.');
-        });
     });
+
+bookButton.addEventListener('click', () => {
+    console.log('Starting booking process...'); 
+    
+    if (!selectedScreen || !selectedSeat || !customerName.value.trim()) {
+        alert('Please select a screen, seat, and enter your name');
+        return;
+    }
+
+    const foodOrders = Array.from(foodContainer.querySelectorAll('input'))
+        .map(input => ({
+            foodItemId: parseInt(input.dataset.id),
+            quantity: parseInt(input.value),
+            price: parseFloat(input.dataset.price)
+        }))
+        .filter(order => order.quantity > 0);
+
+    fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            screenId: selectedScreen.id,
+            seatId: selectedSeat.id,
+            customerName: customerName.value.trim(),
+            foodOrders,
+            screenType: selectedScreen.type
+        })
+    })
+    .then(response => response.json())
+    .then(booking => {
+        if (booking.success) {
+            let summaryHTML = '';
+            
+            if (booking.isWaitingList) {
+                summaryHTML = `
+                    <p><strong>Booking Status:</strong> Waiting List</p>
+                    <p><strong>Waiting List Position:</strong> ${booking.waitingListPosition}</p>
+                    <p><strong>Customer Name:</strong> ${customerName.value}</p>
+                    <p><strong>Screen Type:</strong> ${selectedScreen.type}</p>
+                    <p class="note">You will be automatically upgraded to a confirmed booking when a seat becomes available.</p>
+                `;
+            } else {
+                let foodDiscount = selectedScreen.type === 'Gold' ? 0.10 : 
+                                 selectedScreen.type === 'Max' ? 0.05 : 0;
+                
+                let foodTotal = foodOrders.reduce((total, order) => 
+                    total + (order.price * order.quantity * (1 - foodDiscount)), 0);
+                summaryHTML = `
+                    <p><strong>Booking Status:</strong> Confirmed</p>
+                    <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
+                    <p><strong>Customer Name:</strong> ${customerName.value}</p>
+                    <p><strong>Screen Type:</strong> ${selectedScreen.type}</p>
+                    <p><strong>Ticket Price:</strong> Rs. ${selectedScreen.price}</p>
+                    <p><strong>Food & Beverages:</strong> Rs. ${foodTotal.toFixed(2)}</p>
+                    <p><strong>Total Amount:</strong> Rs. ${booking.totalAmount.toFixed(2)}</p>
+                `;
+            }
+            
+            summaryContent.innerHTML = summaryHTML;
+            bookingSummary.style.display = 'block';
+            theaterSelect.value = '';
+            screenSelect.value = '';
+            screenSelect.disabled = true;
+            seatsContainer.innerHTML = '';
+            customerName.value = '';
+            foodContainer.querySelectorAll('input').forEach(input => input.value = 0);
+            selectedSeat = null;
+            selectedScreen = null;
+        } else {
+            alert('Booking failed. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Booking error:', error);
+        alert('Booking failed. Please try again.');
+    });
+});
 
     cancelTicketBtn.addEventListener('click', () => {
         cancelModal.classList.add('active');

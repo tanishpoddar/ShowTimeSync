@@ -1,18 +1,16 @@
 {
-  "name": "showtimesync",
+  "name": "fullstack-app",
   "version": "1.0.0",
-  "description": "ShowTimeSync is a comprehensive movie booking system designed to help a movie theater company manage ticket bookings across India.",
-  "main": "public/index.html",
+  "main": "app.js",
   "scripts": {
-    "start": "node public/app.js",
-    "build": "npm install",
-    "vercel-build": "npm install"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "express": "^4.21.2",
     "sqlite3": "^5.1.7"
-  },
-  "devDependencies": {},
-  "author": "Tanish Poddar",
-  "license": "ISC"
+  }
 }
