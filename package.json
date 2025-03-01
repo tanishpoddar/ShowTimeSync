@@ -1,0 +1,18 @@
+{
+  "name": "showtimesync",
+  "version": "1.0.0",
+  "description": "ShowTimeSync is a comprehensive movie booking system designed to help a movie theater company manage ticket bookings across India.",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "node public/app.js",
+    "build": "npm install",
+    "vercel-build": "npm install"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {},
+  "author": "Tanish Poddar",
+  "license": "ISC"
+}

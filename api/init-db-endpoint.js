@@ -1,7 +1,9 @@
 const { exec } = require('child_process');
+const path = require('path');
 
 export default function handler(req, res) {
-  exec('node ./init-db.js', (error, stdout, stderr) => {
+  const initScriptPath = path.join(__dirname, '../scripts/init-db.js');
+  exec(`node ${initScriptPath}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       res.status(500).json({ message: 'Database initialization failed' });
