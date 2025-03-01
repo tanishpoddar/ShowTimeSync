@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node public/app.js",
     "build": "npm install",
-    "vercel-build": "npm install"
+    "vercel-build": "sh build.sh"
   },
   "dependencies": {
     "express": "^4.21.2",
