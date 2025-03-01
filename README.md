@@ -1,4 +1,4 @@
-# ShowTimeSync - Node.js
+# ShowTimeSync
 
 This is a movie booking application built using Node.js and SQLite. It provides a simple web interface for users to book movie tickets.
 
@@ -8,8 +8,7 @@ To get started with the project, follow these steps:
 1. **Clone the Repository:**
    ```sh
    git clone https://github.com/tanishpoddar/ShowTimeSync
-   cd movie-booking-app
-   cd fullstack-app
+   cd ShowTimeSync
    ```
 
 2. **Install Dependencies:**
@@ -59,9 +58,7 @@ node app.js
 The application will start a server on `http://localhost:3001`.
 
 ## Screenshots
-![fullstack-app](image/fullstack-app.jpg)
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request if you have any improvements or fixes.
+![fullstack-app](image/showtimesync.jpg)
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
