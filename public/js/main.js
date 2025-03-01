@@ -18,16 +18,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the database for the user
     async function initializeDatabase() {
-        const response = await fetch('/api/init-db-endpoint');
-        const data = await response.json();
-        console.log(data.message);
+        try {
+            const response = await fetch('/api/init-db-endpoint');
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error initializing database:', error);
+        }
     }
 
     // Clean up the database for the user
     async function cleanupDatabase() {
-        const response = await fetch('/api/cleanup-db-endpoint');
-        const data = await response.json();
-        console.log(data.message);
+        try {
+            const response = await fetch('/api/cleanup-db-endpoint');
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error cleaning up database:', error);
+        }
     }
 
     // Initialize and clean up the database on page load
