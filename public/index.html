@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShowTimeSync - Movie Booking System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <span>ShowTimeSync</span>
+            </div>
+            <div class="nav-actions">
+                <button id="cancel-ticket-btn" class="nav-button">
+                    <i class="fas fa-times-circle"></i>
+                    Cancel Ticket
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div id="cancel-modal" class="modal">
+        <div class="modal-content">
+            <h2>
+                <i class="fas fa-times-circle"></i>
+                Cancel Ticket
+            </h2>
+            <div class="modal-body">
+                <div class="input-wrapper">
+                    <label for="booking-id">Booking ID</label>
+                    <input type="text" id="booking-id" placeholder="Enter your booking ID">
+                </div>
+                <div class="button-group">
+                    <button id="cancel-confirm-btn" class="danger-button">
+                        <i class="fas fa-check"></i>
+                        Confirm Cancellation
+                    </button>
+                    <button id="cancel-close-btn" class="secondary-button">
+                        <i class="fas fa-times"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="booking-card">
+            <h1>Book Your Show</h1>
+            
+            <div class="section" role="region" aria-labelledby="theater-heading">
+                <h2 id="theater-heading">
+                    <i class="fas fa-building"></i>
+                    Select Theater
+                </h2>
+                <div class="select-wrapper">
+                    <select id="theater-select" name="theater" title="Select theater location">
+                        <option value="">Choose a theater</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section" role="region" aria-labelledby="screen-heading">
+                <h2 id="screen-heading">
+                    <i class="fas fa-tv"></i>
+                    Select Screen Type
+                </h2>
+                <div class="select-wrapper">
+                    <select id="screen-select" name="screen" disabled title="Select screen type">
+                        <option value="">Choose a screen</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section" role="region" aria-labelledby="seats-heading">
+                <h2 id="seats-heading">
+                    <i class="fas fa-chair"></i>
+                    Available Seats
+                </h2>
+                <div id="seats-container" class="seats-container" role="group" aria-label="Available seats"></div>
+            </div>
+
+            <div class="section" role="region" aria-labelledby="food-heading">
+                <h2 id="food-heading">
+                    <i class="fas fa-utensils"></i>
+                    Food & Beverages
+                </h2>
+                <div id="food-container" class="food-container" role="group" aria-label="Food and beverage selection"></div>
+            </div>
+
+            <div class="section" role="region" aria-labelledby="customer-heading">
+                <h2 id="customer-heading">
+                    <i class="fas fa-user"></i>
+                    Customer Information
+                </h2>
+                <div class="input-wrapper">
+                    <input type="text" 
+                           id="customer-name" 
+                           name="customerName" 
+                           placeholder="Enter your name"
+                           aria-required="true"
+                           required>
+                </div>
+            </div>
+
+            <div class="section">
+                <button id="book-button" type="button" aria-label="Complete booking">
+                    <i class="fas fa-ticket-alt"></i>
+                    Book Ticket
+                </button>
+            </div>
+        </div>
+
+        <div id="booking-summary" class="summary" style="display: none;" role="region" aria-labelledby="summary-heading">
+            <h2 id="summary-heading">
+                <i class="fas fa-receipt"></i>
+                Booking Summary
+            </h2>
+            <div id="summary-content"></div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
